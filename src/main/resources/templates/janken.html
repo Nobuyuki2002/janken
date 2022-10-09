@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>Janken Game</title>
+</head>
+
+<body>
+  <h1>Janken Game</h1>
+  <div th:if="${user_name}">
+    Hi [[${user_name}]]
+  </div>
+  <a href="/jankengame?hand=1">ぐー</a>
+  <a href="/jankengame?hand=2">ちょき</a>
+  <a href="/jankengame?hand=3">ぱー</a>
+  <p>
+  <div th:if="${my_hand}">
+    あなたの手:[[${my_hand}]]
+  </div>
+  <div th:if="${cpu_hand}">
+    相手の手:[[${cpu_hand}]]
+  </div>
+  <div th:if="${result}">
+    結果:[[${result}]]
+  </div>
+  </p>
+</body>
+
+</html>
