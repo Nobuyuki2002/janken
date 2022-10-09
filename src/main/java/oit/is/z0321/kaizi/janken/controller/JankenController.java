@@ -6,6 +6,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import oit.is.z0321.kaizi.janken.model.Janken;
+
 /**
  * JankenController
  *
@@ -34,6 +36,23 @@ public class JankenController {
    */
   @GetMapping("/janken")
   public String janken() {
+    return "janken.html";
+  }
+
+  /**
+   * jankenの結果を返す
+   *
+   * @param hand
+   * @param model
+   * @return
+   */
+  @GetMapping("/jankengame")
+  public String janken(@RequestParam Integer hand, ModelMap model) {
+    Janken janken = new Janken(hand);
+    model.addAttribute("my_hand", janken.getMyhand());
+    model.addAttribute("cpu_hand", janken.getCpuhand());
+    model.addAttribute("result", janken.Result());
+
     return "janken.html";
   }
 }
