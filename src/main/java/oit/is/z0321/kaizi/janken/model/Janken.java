@@ -1,11 +1,14 @@
 package oit.is.z0321.kaizi.janken.model;
 
+import java.util.Random;
+
 public class Janken {
   private int Hand = 1;
   private int CpuHand = 1;
 
   public Janken(int hand) {
     this.Hand = hand;
+    this.setCpuHand(); // CPUの手を初期化する
   }
 
   public String Result() {
@@ -38,6 +41,12 @@ public class Janken {
         }
     }
     return "";
+  }
+
+  public void setCpuHand() {
+    Random rand = new Random();
+
+    this.CpuHand = rand.nextInt(3) + 1;
   }
 
   /**
