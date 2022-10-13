@@ -11,6 +11,12 @@
   <div th:if="${user_name}">
     Hi [[${user_name}]]
   </div>
+  <div th:if="${room}">
+    エントリー
+    <ul>
+      <li th:each="user : ${room.users}">[[${user}]]</li>
+    </ul>
+  </div>
   <a href="/janken/game?hand=1">ぐー</a>
   <a href="/janken/game?hand=2">ちょき</a>
   <a href="/janken/game?hand=3">ぱー</a>
