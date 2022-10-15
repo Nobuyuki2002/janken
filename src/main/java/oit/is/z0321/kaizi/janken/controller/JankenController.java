@@ -29,9 +29,8 @@ public class JankenController {
   public String janken(Principal prin, ModelMap model) {
     String loginUser = prin.getName();
     this.entry.addUser(loginUser);
-    model.addAttribute("room", this.entry);
+    model.addAttribute("entry", this.entry);
     model.addAttribute("user_name", loginUser);
-    model.addAttribute("new_room", this.entry);
     return "janken.html";
   }
 
