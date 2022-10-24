@@ -69,13 +69,38 @@ public class JankenController {
    * @param model
    * @return
    */
-  @GetMapping("game")
-  public String janken(@RequestParam Integer hand, ModelMap model) {
+  @GetMapping("/match")
+  public String janken(Principal prin, @RequestParam Integer id, ModelMap model) {
+    String loginUser = prin.getName();
+    User match_user = userMapper.selectById(id);
+    model.addAttribute("user_id", id);
+    model.addAttribute("user_name", loginUser);
+
+    model.addAttribute("match_user", match_user.getName());
+
+    return "match.html";
+  }
+
+  /**
+   * jankenの結果を返す
+   *
+   * @param hand
+   * @param model
+   * @return
+   */
+  @GetMapping("/fight")
+  public String janken(Principal prin, @RequestParam Integer id, @RequestParam Integer hand, ModelMap model) {
+    String loginUser = prin.getName();
     Janken janken = new Janken(hand);
+    User match_user = userMapper.selectById(id);
+    model.addAttribute("user_id", id);
+    model.addAttribute("user_name", loginUser);
+    model.addAttribute("match_user", match_user.getName());
+
     model.addAttribute("my_hand", janken.getMyhand());
     model.addAttribute("cpu_hand", janken.getCpuhand());
     model.addAttribute("result", janken.Result());
 
-    return "janken.html";
+    return "match.html";
   }
 }
