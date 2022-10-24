@@ -13,9 +13,9 @@ public interface MatchMapper {
   // @Select("SELECT id,name from users where id = #{id}")
   // User selectById(int id);
 
-  // @Insert("INSERT INTO users (name) VALUES (#{name},#{name});")
-  // @Options(useGeneratedKeys = true, keyColumn = "id", keyProperty = "id")
-  // void insertUser(User user);
+  @Insert("INSERT INTO matches (user1, user2, user1Hand, user2Hand) VALUES (#{user1}, #{user2}, #{user1Hand}, #{user2Hand});")
+  @Options(useGeneratedKeys = true, keyColumn = "id", keyProperty = "id")
+  void insertMatches(Match match);
 
   @Select("SELECT * from matches;")
   ArrayList<Match> selectAllMatches();

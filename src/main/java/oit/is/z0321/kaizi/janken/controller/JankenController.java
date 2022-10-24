@@ -90,11 +90,15 @@ public class JankenController {
    */
   @GetMapping("/fight")
   public String janken(Principal prin, @RequestParam Integer id, @RequestParam Integer hand, ModelMap model) {
-    String loginUser = prin.getName();
     Janken janken = new Janken(hand);
     User match_user = userMapper.selectById(id);
+    User loginUser = userMapper.selectByName(prin.getName());
+
+    Match match_data = new Match(loginUser.getId(), match_user.getId(), janken.getMyhand(), janken.getCpuhand());
+    matchMapper.insertMatches(match_data);
+
     model.addAttribute("user_id", id);
-    model.addAttribute("user_name", loginUser);
+    model.addAttribute("user_name", loginUser.getName());
     model.addAttribute("match_user", match_user.getName());
 
     model.addAttribute("my_hand", janken.getMyhand());
