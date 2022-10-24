@@ -57,11 +57,11 @@ public class Janken {
   public String getMyhand() {
     switch (this.Hand) {
       case 1:
-        return "ぐー";
+        return "Gu";
       case 2:
-        return "ちょき";
+        return "Choki";
       case 3:
-        return "ぱー";
+        return "Pa";
     }
     return "";
   }
@@ -74,11 +74,11 @@ public class Janken {
   public String getCpuhand() {
     switch (this.CpuHand) {
       case 1:
-        return "ぐー";
+        return "Gu";
       case 2:
-        return "ちょき";
+        return "Choki";
       case 3:
-        return "ぱー";
+        return "Pa";
     }
     return "";
   }
