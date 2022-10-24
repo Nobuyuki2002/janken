@@ -25,7 +25,6 @@ import oit.is.z0321.kaizi.janken.model.UserMapper;
  * @author 田渕宣行
  */
 @Controller
-@RequestMapping("/janken")
 public class JankenController {
 
   @Autowired
@@ -37,7 +36,7 @@ public class JankenController {
   MatchMapper matchMapper;
 
   /** */
-  @GetMapping
+  @GetMapping("/janken")
   public String janken(Principal prin, ModelMap model) {
     String loginUser = prin.getName();
     ArrayList<User> users_info = userMapper.selectAllUserName();

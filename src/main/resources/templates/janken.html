@@ -14,8 +14,7 @@
   <div th:if=${user_info}>
     <h2>エントリー</h2>
     <ul>
-      <li th:each="user_info,stat:${user_info}"><a
-          th:href="@{/janken/match(id=${user_info.id})}">[[${user_info.name}]]</a>
+      <li th:each="user_info,stat:${user_info}"><a th:href="@{/match(id=${user_info.id})}">[[${user_info.name}]]</a>
       </li>
     </ul>
   </div>
