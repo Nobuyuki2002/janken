@@ -93,7 +93,7 @@ public class JankenController {
     User match_user = userMapper.selectById(id);
     User loginUser = userMapper.selectByName(prin.getName());
 
-    Match match_data = new Match(loginUser.getId(), match_user.getId(), janken.getMyhand(), janken.getCpuhand());
+    Match match_data = new Match(loginUser.getId(), match_user.getId(), janken.getMyhand(), janken.getCpuhand(), false);
     matchMapper.insertMatches(match_data);
 
     model.addAttribute("user_id", id);
