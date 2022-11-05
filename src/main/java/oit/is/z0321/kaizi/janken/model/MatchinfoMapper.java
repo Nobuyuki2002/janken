@@ -15,5 +15,8 @@ public interface MatchinfoMapper {
   void insertMatchInfo(Matchinfo match_info);
 
   @Select("SELECT * from matchinfo;")
-  ArrayList<Matchinfo> selectAllMatcheInfos();
+  ArrayList<Matchinfo> selectAllMatchInfos();
+
+  @Select("SELECT * from matchinfo where isActive = true and ( user1 = #{user} or user2 = #{user} );")
+  ArrayList<Matchinfo> selectActiveMatchInfos(int user);
 }

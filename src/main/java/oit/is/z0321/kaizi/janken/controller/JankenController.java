@@ -46,6 +46,8 @@ public class JankenController {
     String loginUser = prin.getName();
     ArrayList<User> users_info = userMapper.selectAllUserName();
     ArrayList<Match> matches_info = matchMapper.selectAllMatches();
+    ArrayList<Matchinfo> active_matches_info = matchinfoMapper
+        .selectActiveMatchInfos((userMapper.selectByName(loginUser)).getId());
 
     this.entry.addUser(loginUser);
     model.addAttribute("entry", this.entry);
@@ -53,6 +55,7 @@ public class JankenController {
 
     model.addAttribute("user_info", users_info);
     model.addAttribute("matches_info", matches_info);
+    model.addAttribute("active_matches", active_matches_info);
     return "janken.html";
   }
 
