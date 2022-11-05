@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import oit.is.z0321.kaizi.janken.model.Janken;
 import oit.is.z0321.kaizi.janken.model.Match;
 import oit.is.z0321.kaizi.janken.model.MatchMapper;
+import oit.is.z0321.kaizi.janken.model.Matchinfo;
+import oit.is.z0321.kaizi.janken.model.MatchinfoMapper;
 import oit.is.z0321.kaizi.janken.model.User;
 import oit.is.z0321.kaizi.janken.model.UserMapper;
 
@@ -34,6 +36,9 @@ public class JankenController {
 
   @Autowired
   MatchMapper matchMapper;
+
+  @Autowired
+  MatchinfoMapper matchinfoMapper;
 
   /** */
   @GetMapping("/janken")
@@ -72,6 +77,7 @@ public class JankenController {
   public String janken(Principal prin, @RequestParam Integer id, ModelMap model) {
     String loginUser = prin.getName();
     User match_user = userMapper.selectById(id);
+
     model.addAttribute("user_id", id);
     model.addAttribute("user_name", loginUser);
 
@@ -93,17 +99,11 @@ public class JankenController {
     User match_user = userMapper.selectById(id);
     User loginUser = userMapper.selectByName(prin.getName());
 
-    Match match_data = new Match(loginUser.getId(), match_user.getId(), janken.getMyhand(), janken.getCpuhand(), false);
-    matchMapper.insertMatches(match_data);
+    Matchinfo match_info = new Matchinfo(loginUser.getId(), match_user.getId(), janken.getMyhand(), true);
+    matchinfoMapper.insertMatchInfo(match_info);
 
-    model.addAttribute("user_id", id);
     model.addAttribute("user_name", loginUser.getName());
-    model.addAttribute("match_user", match_user.getName());
 
-    model.addAttribute("my_hand", janken.getMyhand());
-    model.addAttribute("cpu_hand", janken.getCpuhand());
-    model.addAttribute("result", janken.Result());
-
-    return "match.html";
+    return "wait.html";
   }
 }
