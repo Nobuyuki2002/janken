@@ -8,28 +8,16 @@
 
 <body>
   <h1>Match</h1>
-  <p th:if="${ user_name == match_user}">
-
-  <div th:if="${user_name}">
-    <div th:if="${match_user}">
-      [[${user_name}]] vs [[${match_user}]]
+  <div th:if="${user_name} != ${match_user}">
+    <div th:if="${user_name}">
+      <div th:if="${match_user}">
+        [[${user_name}]] vs [[${match_user}]]
+      </div>
     </div>
+    <a th:href="@{/fight(id=${user_id},hand=1)}">ぐー</a>
+    <a th:href="@{/fight(id=${user_id},hand=2)}">ちょき</a>
+    <a th:href="@{/fight(id=${user_id},hand=3)}">ぱー</a>
   </div>
-  </p>
-  <a th:href="@{/fight(id=${user_id},hand=1)}">ぐー</a>
-  <a th:href="@{/fight(id=${user_id},hand=2)}">ちょき</a>
-  <a th:href="@{/fight(id=${user_id},hand=3)}">ぱー</a>
-  <p>
-  <div th:if="${my_hand}">
-    あなたの手:[[${my_hand}]]
-  </div>
-  <div th:if="${cpu_hand}">
-    相手の手:[[${cpu_hand}]]
-  </div>
-  <div th:if="${result}">
-    結果:[[${result}]]
-  </div>
-  </p>
   <a href="/janken">もどる</a>
 </body>
 

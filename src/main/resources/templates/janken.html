@@ -18,9 +18,20 @@
       </li>
     </ul>
   </div>
+  <div th:if="${active_matches}">
+    <h2>アクティブな試合</h2>
+    <table th:each="active_match,stat:${active_matches}">
+      <tr>
+        <td>id:[[${active_match.id}]]</td>
+        <td>user1:[[${active_match.user1}]]</td>
+        <td>user2:[[${active_match.user2}]]</td>
+        <td>isActive:[[${active_match.isActive}]]</td>
+      </tr>
+    </table>
+  </div>
   <div th:if=${matches_info}>
     <h2>試合結果</h2>
-    <p th:each="match,stat:${matches_info}">
+    <table th:each="match,stat:${matches_info}">
       <tr>
         <td>id:[[${match.id}]]</td>
         <td>user1:[[${match.user1}]]</td>
@@ -28,7 +39,7 @@
         <td>user1の手:[[${match.user1Hand}]]</td>
         <td>user2の手:[[${match.user2Hand}]]</td>
       </tr>
-    </p>
+    </table>
   </div>
   <div><a href="/logout">ログアウト</a></div>
 </body>
