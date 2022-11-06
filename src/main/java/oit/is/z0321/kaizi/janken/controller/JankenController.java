@@ -7,11 +7,13 @@ import oit.is.z0321.kaizi.janken.model.Entry;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 import oit.is.z0321.kaizi.janken.model.Janken;
 import oit.is.z0321.kaizi.janken.model.Match;
@@ -20,6 +22,7 @@ import oit.is.z0321.kaizi.janken.model.Matchinfo;
 import oit.is.z0321.kaizi.janken.model.MatchinfoMapper;
 import oit.is.z0321.kaizi.janken.model.User;
 import oit.is.z0321.kaizi.janken.model.UserMapper;
+import oit.is.z0321.kaizi.janken.service.AsyncKekka;
 
 /**
  * JankenController
@@ -39,6 +42,9 @@ public class JankenController {
 
   @Autowired
   MatchinfoMapper matchinfoMapper;
+
+  @Autowired
+  AsyncKekka kekka;
 
   /** */
   @GetMapping("/janken")
@@ -97,16 +103,37 @@ public class JankenController {
    * @return
    */
   @GetMapping("/fight")
+  @Transactional
   public String janken(Principal prin, @RequestParam Integer id, @RequestParam Integer hand, ModelMap model) {
     Janken janken = new Janken(hand);
     User match_user = userMapper.selectById(id);
     User loginUser = userMapper.selectByName(prin.getName());
+    Matchinfo getMatch = matchinfoMapper.selectActiveThisMatchInfo(match_user.getId(), loginUser.getId());
+    Match thisMatch;
+    if (getMatch == null) {
+      getMatch = matchinfoMapper.selectActiveThisMatchInfo(loginUser.getId(), match_user.getId());
+      if (getMatch == null) {
+        Matchinfo match_info = new Matchinfo(loginUser.getId(), match_user.getId(), janken.getMyhand(), true);
+        matchinfoMapper.insertMatchInfo(match_info);
+      }
+    } else {
+      thisMatch = new Match(loginUser.getId(), match_user.getId(), janken.getMyhand(), getMatch.getUser1Hand(), true);
+      matchMapper.insertMatches(thisMatch);
 
-    Matchinfo match_info = new Matchinfo(loginUser.getId(), match_user.getId(), janken.getMyhand(), true);
-    matchinfoMapper.insertMatchInfo(match_info);
+      this.kekka.syncUpdateMatchinfo(getMatch.getId());
+
+      kekka.syncSetId(thisMatch.getId());
+    }
 
     model.addAttribute("user_name", loginUser.getName());
 
     return "wait.html";
+  }
+
+  @GetMapping("/result")
+  public SseEmitter result() {
+    final SseEmitter sseEmitter = new SseEmitter();
+    this.kekka.syncShowMatchresult(sseEmitter);
+    return sseEmitter;
   }
 }

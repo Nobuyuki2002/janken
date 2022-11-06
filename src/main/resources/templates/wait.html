@@ -4,6 +4,21 @@
 <head>
   <meta charset="utf-8">
   <title>Janken Game</title>
+  <script>
+    window.onload = function () {
+      var sse = new EventSource('/result');
+      sse.onmessage = function (event) {
+        console.log("sse.onmessage")
+        console.log(event.data);
+        var result_data = JSON.parse(event.data);
+        var result = "Match : id " + result_data.id + " user1: " + result_data.user1 + " user2: " + result_data.user2 + " user1Hand: " + result_data.user1Hand + " user2Hand: " + result_data.user2Hand + "<br><a href =\" /janken\"> もどる</a>";
+        console.log(result);
+        var div = document.getElementById("result");
+        div.innerHTML = result;
+
+      }
+    }
+  </script>
 </head>
 
 <body>
@@ -11,7 +26,7 @@
   <div th:if="${user_name}">
     Hi [[${user_name}]]
   </div>
-  <a href="/janken">もどる</a>
+  <div id="result"></div>
 </body>
 
 </html>
